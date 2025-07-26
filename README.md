@@ -56,7 +56,8 @@ Each contains a valid DNA sequence with multiple potential matches.
 
 ## 📸 Screenshots
 
-> *(Add images here if needed: loading file, animation, pattern matching, results, etc.)*
+<img width="1913" height="986" alt="image" src="https://github.com/user-attachments/assets/6388d328-4daf-4ab6-ae1e-1522ad35096c" />
+
 
 ## 📚 Documentation
 
