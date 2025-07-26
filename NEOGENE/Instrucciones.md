@@ -85,5 +85,3 @@ Este proyecto implementa una herramienta gráfica interactiva para buscar patron
    - Haz clic en `Apply`, luego `OK`
    - Ejecutar con `Shift + F10` o el botón ▶️
 
-
->>>>>>> edc49cb5bd49e29f022d99f62b6d0f417c5b3813
