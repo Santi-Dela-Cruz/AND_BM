@@ -12,6 +12,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Clase que anima una hélice de ADN en un panel JavaFX.
+ * Permite resaltar posiciones coincidentes y animar la secuencia.
+ */
 public class AdnHelixAnimator {
 
     private final Pane pane;
@@ -24,19 +28,37 @@ public class AdnHelixAnimator {
     private String sequence = "";
     private Set<Integer> posicionesCoincidentes = new HashSet<>();
 
+    /**
+     * Constructor que recibe el panel donde se dibujará la animación.
+     * 
+     * @param pane Panel de JavaFX para la animación
+     */
     public AdnHelixAnimator(Pane pane) {
         this.pane = pane;
     }
 
+    /**
+     * Establece la secuencia de ADN a animar.
+     * 
+     * @param seq Secuencia de ADN (solo A, T, C, G)
+     */
     public void setSequence(String seq) {
         this.sequence = seq.toUpperCase().replaceAll("[^ATCG]", "");
     }
 
+    /**
+     * Establece las posiciones coincidentes a resaltar en la animación.
+     * 
+     * @param indices Lista de índices coincidentes
+     */
     public void setCoincidencias(List<Integer> indices) {
         posicionesCoincidentes.clear();
         posicionesCoincidentes.addAll(indices);
     }
 
+    /**
+     * Inicia la animación de la hélice de ADN.
+     */
     public void start() {
         if (sequence.isEmpty())
             return;
@@ -77,6 +99,12 @@ public class AdnHelixAnimator {
         timeline.play();
     }
 
+    /**
+     * Devuelve el color correspondiente a cada base de ADN.
+     * 
+     * @param base Base de ADN (A, T, C, G)
+     * @return Color asociado
+     */
     private Color getColor(char base) {
         return switch (base) {
             case 'A' -> Color.web("#6AC259");
@@ -87,6 +115,9 @@ public class AdnHelixAnimator {
         };
     }
 
+    /**
+     * Detiene la animación si está activa.
+     */
     public void stop() {
         if (timeline != null)
             timeline.stop();

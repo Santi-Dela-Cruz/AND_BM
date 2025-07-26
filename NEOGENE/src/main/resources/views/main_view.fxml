@@ -56,7 +56,7 @@
                      <children>
                         <VBox spacing="10.0" styleClass="control-group">
                            <children>
-                              <Label styleClass="section-header" text="ADN" />
+                              <Label styleClass="section-header" text="DNA SEQUENCE INJECTOR" />
                               <HBox alignment="CENTER_LEFT" spacing="15.0">
                                  <children>
                                     <Button fx:id="btn_UploadFile" mnemonicParsing="false" styleClass="button-upload" text="UPLOAD" />
@@ -79,7 +79,7 @@
                         <!-- SECUENCE Section -->
                         <VBox spacing="10.0" styleClass="control-group">
                            <children>
-                              <Label styleClass="section-header" text="SECUENCE" />
+                              <Label styleClass="section-header" text="SEQUENCE QUERY GATE" />
                               <TextField fx:id="txtf_Secuence" promptText="Enter pattern to search" />
                               <HBox alignment="CENTER_LEFT" spacing="15.0">
                                  <children>
@@ -140,7 +140,7 @@
                   <!-- Panel inferior izquierdo (resultados) -->
                   <VBox spacing="10.0" styleClass="results-panel" GridPane.rowIndex="1">
                      <children>
-                        <Label styleClass="panel-header" text="RESULTADOS" />
+                        <Label styleClass="panel-header" text="SEQUENCE ANALYSIS SUMMARY" />
                         <TextArea fx:id="txta_Result" prefHeight="200.0" styleClass="result-area" wrapText="true" VBox.vgrow="ALWAYS" />
                      </children>
                      <GridPane.margin>
@@ -151,7 +151,7 @@
                   <!-- Panel inferior derecho (depuración) -->
                   <VBox spacing="10.0" styleClass="debug-panel" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Label styleClass="panel-header" text="DEPURADO" />
+                        <Label styleClass="panel-header" text="GENETIC PROCESS LOGGER" />
                         <TextArea fx:id="txta_Debug" prefHeight="200.0" styleClass="debug-area" wrapText="true" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>

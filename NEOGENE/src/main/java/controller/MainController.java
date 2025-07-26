@@ -23,6 +23,10 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controlador principal de la aplicación NEOGENE.
+ * Maneja la lógica de la interfaz de usuario y la interacción con el usuario.
+ */
 public class MainController {
 
     @FXML
@@ -43,14 +47,20 @@ public class MainController {
     private Pane pane_AdnAnimado, particleBackground;
     @FXML
     private ToggleButton btnThemeToggle;
+    @FXML
+    private ScrollPane scroll_Visual;
 
     private String secuenciaCargada = "";
     private AdnHelixAnimator animador;
     private ParticleNetworkBackground particleEffect;
     private CircularProgressIndicator progressIndicator;
     private CircularProgressIndicator uploadProgressIndicator;
-    private boolean isDarkMode = true;
+    private boolean isDarkMode = false;
 
+    /**
+     * Método que se llama al inicializar el controlador.
+     * Configura los elementos de la interfaz y los eventos.
+     */
     @FXML
     public void initialize() {
         // Configurar fondo de partículas
@@ -59,46 +69,51 @@ public class MainController {
         particleEffect.prefWidthProperty().bind(particleBackground.widthProperty());
         particleEffect.prefHeightProperty().bind(particleBackground.heightProperty());
         particleEffect.start();
-        
-        // Configurar indicadores de progreso circulares
+
         progressIndicator = new CircularProgressIndicator(20);
         progressContainer.getChildren().add(progressIndicator);
-        
+
         uploadProgressIndicator = new CircularProgressIndicator(20);
         uploadProgressContainer.getChildren().add(uploadProgressIndicator);
-        
+
         // Configurar elementos iniciales
         lb_ProgresoTexto.setText("Ready");
         pane_AdnAnimado.setVisible(false);
         lb_EstadoCarga.setVisible(false);
         lb_EstadoCarga.setText("No file loaded");
+        lb_EstadoCarga.setStyle("");
         txta_Debug.setEditable(false);
         txta_Result.setEditable(false);
-        
-        // Configurar eventos
+
         btn_UploadFile.setOnAction(e -> cargarArchivo());
         btn_Start.setOnAction(e -> animarBoyerMoore());
         btnThemeToggle.setOnAction(e -> toggleTheme());
-        
-        // Aplicar tema después de que la escena esté disponible
+
         particleBackground.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
                 applyTheme(isDarkMode);
             }
         });
     }
-    
+
+    /**
+     * Cambia entre el modo oscuro y claro de la aplicación.
+     */
     private void toggleTheme() {
         isDarkMode = !isDarkMode;
         applyTheme(isDarkMode);
     }
-    
+
+    /**
+     * Aplica el tema oscuro o claro a la aplicación.
+     * 
+     * @param darkMode true para modo oscuro, false para modo claro
+     */
     private void applyTheme(boolean darkMode) {
         if (particleBackground.getScene() == null) {
-            // La escena aún no está disponible, lo aplicaremos cuando se inicialice la aplicación
             return;
         }
-        
+
         Node root = particleBackground.getScene().getRoot();
         if (darkMode) {
             root.getStyleClass().remove("light-mode");
@@ -111,18 +126,46 @@ public class MainController {
         }
     }
 
+    /**
+     * Carga un archivo de ADN y actualiza la interfaz con la secuencia cargada.
+     * Inicia el animador de ADN si la secuencia es válida.
+     */
     private void cargarArchivo() {
         btn_Start.setDisable(true);
         btn_UploadFile.setDisable(true);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecciona archivo de ADN");
+
+        // Configurar filtro para archivos .txt
+        FileChooser.ExtensionFilter txtFilter = new FileChooser.ExtensionFilter("Archivos de texto (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(txtFilter);
+
         File archivo = fileChooser.showOpenDialog(null);
+
+        if (archivo == null) {
+            btn_Start.setDisable(true);
+            btn_UploadFile.setDisable(false);
+            debugLog("Operación de carga de archivo cancelada por el usuario");
+            return;
+        }
 
         if (archivo != null) {
             txtf_FileName.setText(archivo.getName());
             try {
+                // Limpiar visualización previa si existe
+                if (animador != null) {
+                    animador.stop();
+                    animador = null;
+                }
+                pane_AdnAnimado.setVisible(false);
+                hbox_SecuenceDisplay.getChildren().clear();
+
                 List<String> lineas = Files.readAllLines(archivo.toPath());
-                secuenciaCargada = String.join("", lineas).replaceAll("\\s", "").toUpperCase();
+                String contenido = String.join("", lineas).replaceAll("\\s", "").toUpperCase();
+
+                // Almacenar temporalmente para validación
+                String tempSecuencia = contenido;
+
                 lb_EstadoCarga.setVisible(true);
                 lb_EstadoCarga.setText("Loading...");
                 hbox_PatronAnimado.getChildren().clear();
@@ -131,41 +174,65 @@ public class MainController {
 
                 // Iniciar indicador de progreso
                 uploadProgressIndicator.setProgress(0);
-                
+
                 debugLog("Iniciando carga de archivo: " + archivo.getName());
-                debugLog("Tamaño de la secuencia: " + secuenciaCargada.length() + " caracteres");
+                debugLog("Tamaño de la secuencia: " + tempSecuencia.length() + " caracteres");
 
                 Timeline cargaTimeline = new Timeline(
                         new KeyFrame(Duration.ZERO, e -> uploadProgressIndicator.setProgress(0)),
-                        new KeyFrame(Duration.seconds(1), e -> uploadProgressIndicator.setProgress(0.2)),
-                        new KeyFrame(Duration.seconds(2), e -> uploadProgressIndicator.setProgress(0.4)),
-                        new KeyFrame(Duration.seconds(3), e -> uploadProgressIndicator.setProgress(0.6)),
-                        new KeyFrame(Duration.seconds(4), e -> uploadProgressIndicator.setProgress(0.8)),
-                        new KeyFrame(Duration.seconds(5), e -> {
+                        new KeyFrame(Duration.seconds(0.8), e -> uploadProgressIndicator.setProgress(0.2)),
+                        new KeyFrame(Duration.seconds(1.6), e -> uploadProgressIndicator.setProgress(0.4)),
+                        new KeyFrame(Duration.seconds(2.4), e -> uploadProgressIndicator.setProgress(0.6)),
+                        new KeyFrame(Duration.seconds(3.2), e -> uploadProgressIndicator.setProgress(0.8)),
+                        new KeyFrame(Duration.seconds(4.0), e -> {
                             uploadProgressIndicator.setProgress(1.0);
-                            mostrarSecuenciaEnHBox();
-                            pane_AdnAnimado.setVisible(true);
-                            animador = new AdnHelixAnimator(pane_AdnAnimado);
-                            animador.setSequence(secuenciaCargada);
-                            animador.start();
-                            lb_EstadoCarga.setText("File loaded successfully");
-                            btn_Start.setDisable(false);
+
+                            boolean esValido = validarSecuenciaADN(tempSecuencia);
+
+                            if (esValido) {
+                                secuenciaCargada = tempSecuencia;
+                                mostrarSecuenciaEnHBox();
+                                pane_AdnAnimado.setVisible(true);
+                                animador = new AdnHelixAnimator(pane_AdnAnimado);
+                                animador.setSequence(secuenciaCargada);
+                                animador.start();
+                                lb_EstadoCarga.setText("File loaded successfully");
+                                lb_EstadoCarga.setStyle(""); // Resetear estilo a normal
+                                debugLog("Archivo cargado exitosamente");
+                            } else {
+                                pane_AdnAnimado.setVisible(false);
+                                lb_EstadoCarga.setText("Invalid DNA sequence - Only A, T, C, G allowed");
+                                lb_EstadoCarga.setStyle("-fx-text-fill: #e74c3c;");
+                                debugLog("Archivo rechazado: Secuencia de ADN inválida");
+                            }
+                            btn_Start.setDisable(!esValido);
                             btn_UploadFile.setDisable(false);
-                            debugLog("Archivo cargado exitosamente");
                         }));
                 cargaTimeline.play();
 
             } catch (IOException ex) {
                 lb_EstadoCarga.setText("Failed to load file");
-                btn_Start.setDisable(false);
+                lb_EstadoCarga.setStyle("-fx-text-fill: #e74c3c;");
+                btn_Start.setDisable(true);
                 btn_UploadFile.setDisable(false);
                 debugLog("Error al cargar archivo: " + ex.getMessage());
             }
-        } else {
-            btn_Start.setDisable(false);
-            btn_UploadFile.setDisable(false);
-            debugLog("Operación de carga de archivo cancelada por el usuario");
         }
+    }
+
+    /**
+     * Valida que una secuencia contenga únicamente caracteres de ADN válidos (A, T,
+     * C, G)
+     * 
+     * @param secuencia La secuencia a validar
+     * @return true si la secuencia es válida, false en caso contrario
+     */
+    private boolean validarSecuenciaADN(String secuencia) {
+        if (secuencia == null || secuencia.isEmpty()) {
+            return false;
+        }
+
+        return secuencia.matches("^[ATCG]+$");
     }
 
     private void mostrarSecuenciaEnHBox() {
@@ -184,6 +251,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Limpia los estilos de resaltado de la secuencia y el patrón animado.
+     * Se utiliza para reiniciar el estado visual antes de un nuevo análisis.
+     */
     private void limpiarEstilosSecuencia() {
         for (int i = 0; i < hbox_SecuenceDisplay.getChildren().size(); i++) {
             Label lbl = (Label) hbox_SecuenceDisplay.getChildren().get(i);
@@ -191,16 +262,30 @@ public class MainController {
             lbl.getStyleClass().removeIf(s -> s.equals("highlighted") || s.equals("match"));
         }
     }
-    
+
+    /**
+     * Registra un mensaje de depuración en el área de texto de depuración.
+     * Se ejecuta en el hilo de la interfaz de usuario para evitar problemas de
+     * concurrencia.
+     * 
+     * @param message El mensaje a registrar
+     */
     private void debugLog(String message) {
         Platform.runLater(() -> {
             txta_Debug.appendText("[" + java.time.LocalTime.now().toString().substring(0, 8) + "] " + message + "\n");
         });
     }
 
+    /**
+     * Inicia el análisis de la secuencia de ADN utilizando el algoritmo
+     * Boyer-Moore.
+     * Muestra el patrón en la posición correspondiente y actualiza el progreso.
+     */
     private void animarBoyerMoore() {
         btn_Start.setDisable(true);
         btn_UploadFile.setDisable(true);
+        btnThemeToggle.setDisable(true);
+
         limpiarEstilosSecuencia();
         hbox_PatronAnimado.getChildren().clear();
         txta_Result.clear();
@@ -210,13 +295,14 @@ public class MainController {
             txta_Result.setText("Por favor, cargue una secuencia y escriba un patrón de búsqueda.");
             btn_Start.setDisable(false);
             btn_UploadFile.setDisable(false);
+            btnThemeToggle.setDisable(false);
             debugLog("Error: No hay secuencia cargada o patrón ingresado");
             return;
         }
 
         progressIndicator.setProgress(0);
         lb_ProgresoTexto.setText("Analyzing");
-        
+
         debugLog("Iniciando búsqueda de patrón: " + pattern);
         debugLog("Algoritmo: Boyer-Moore");
         debugLog("Longitud del patrón: " + pattern.length());
@@ -227,7 +313,7 @@ public class MainController {
         List<BoyerMooreMatcher.Step> pasos = matcher.getSearchSteps();
         long finAlg = System.nanoTime();
         double tiempoMs = (finAlg - inicioAlg) / 1_000_000.0;
-        
+
         debugLog("Tiempo de procesamiento del algoritmo: " + String.format("%.3f ms", tiempoMs));
         debugLog("Número total de pasos: " + pasos.size());
 
@@ -273,6 +359,7 @@ public class MainController {
             lb_ProgresoTexto.setText("Complete");
             btn_Start.setDisable(false);
             btn_UploadFile.setDisable(false);
+            btnThemeToggle.setDisable(false);
             debugLog("Análisis completado");
             debugLog("Total de coincidencias encontradas: " + totalCoincidencias[0]);
             debugLog("Total de comparaciones realizadas: " + comparacionesTotales[0]);
@@ -316,5 +403,34 @@ public class MainController {
                         "-fx-background-color: #FFD700; -fx-border-color: gray; -fx-padding: 4; -fx-text-fill: black; -fx-border-radius: 4; -fx-background-radius: 4;");
             }
         }
+
+        double visibleWidth = scroll_Visual.getViewportBounds().getWidth();
+        double contentWidth = hbox_SecuenceDisplay.getWidth();
+
+        double elementWidth = 24.0;
+        double patternWidth = pattern.length() * elementWidth;
+        double positionInPixels = pos * elementWidth;
+
+        double scrollValue;
+        if (contentWidth <= visibleWidth) {
+            scrollValue = 0;
+        } else {
+            double centerPosition = positionInPixels + (patternWidth / 2);
+            double scrollCenter = centerPosition - (visibleWidth / 2);
+
+            scrollValue = Math.max(0, Math.min(1, scrollCenter / (contentWidth - visibleWidth)));
+
+            if (pos >= secuenciaCargada.length() - pattern.length()) {
+                scrollValue = 1.0;
+            }
+        }
+
+        javafx.animation.Timeline scrollAnimation = new javafx.animation.Timeline(
+                new javafx.animation.KeyFrame(javafx.util.Duration.ZERO,
+                        new javafx.animation.KeyValue(scroll_Visual.hvalueProperty(), scroll_Visual.getHvalue())),
+                new javafx.animation.KeyFrame(javafx.util.Duration.millis(300),
+                        new javafx.animation.KeyValue(scroll_Visual.hvalueProperty(), scrollValue,
+                                javafx.animation.Interpolator.EASE_BOTH)));
+        scrollAnimation.play();
     }
 }
