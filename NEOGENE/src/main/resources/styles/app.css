@@ -1,0 +1,604 @@
+/*=====================================================================
+                          VARIABLES TEMATICAS
+=====================================================================*/
+* {
+  /* Colores oscuros - Estilo Minimalista */
+  -fx-primary-dark: #0d1117;
+  -fx-secondary-dark: #161b22;
+  -fx-accent-dark: rgba(88, 166, 255, 0.7);
+  -fx-accent2-dark: rgba(57, 211, 83, 0.7);
+  -fx-accent3-dark: rgba(188, 140, 255, 0.7);
+  -fx-text-dark: rgba(201, 209, 217, 0.9);
+  -fx-card-dark: rgba(22, 27, 34, 0.7);
+  -fx-border-dark: rgba(48, 54, 61, 0.5);
+  -fx-neon-glow: rgba(88, 166, 255, 0.2);
+
+  /* Colores claros - Estilo Minimalista */
+  -fx-primary-light: #f6f8fa;
+  -fx-secondary-light: #ebeef0;
+  -fx-accent-light: rgba(9, 105, 218, 0.7);
+  -fx-accent2-light: rgba(45, 164, 78, 0.7);
+  -fx-accent3-light: rgba(130, 80, 223, 0.7);
+  -fx-text-light: rgba(36, 41, 47, 0.9);
+  -fx-card-light: rgba(246, 248, 250, 0.7);
+  -fx-border-light: rgba(208, 215, 222, 0.5);
+  
+  /* Variables de animación */
+  -fx-transition-duration: 0.2s;
+  -fx-hover-scale: 1.01;
+}
+
+/*=====================================================================
+                            TEMA OSCURO (DEFAULT)
+=====================================================================*/
+.root {
+  -fx-background-color: -fx-primary-dark;
+  -fx-text-fill: -fx-text-dark;
+  -fx-font-family: "Segoe UI", sans-serif;
+  -fx-font-size: 13px;
+  -fx-background-image: none;
+}
+
+.main-container {
+  -fx-background-color: transparent;
+}
+
+.content-overlay {
+  -fx-background-color: transparent;
+}
+
+/*=====================================================================
+                              PANELES Y SECCIONES
+=====================================================================*/
+.header-panel {
+  -fx-background-color: rgba(22, 27, 34, 0.7);
+  -fx-background-radius: 12px;
+  -fx-border-radius: 12px;
+  -fx-border-color: -fx-border-dark;
+  -fx-border-width: 1px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 12, 0.1, 0, 3);
+}
+
+.control-sidebar, .visualization-container, .results-panel, .debug-panel {
+  -fx-background-color: rgba(22, 27, 34, 0.7);
+  -fx-background-radius: 12px;
+  -fx-border-radius: 12px;
+  -fx-border-color: -fx-border-dark;
+  -fx-border-width: 1px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0.1, 0, 2);
+  -fx-padding: 15px;
+  -fx-background-insets: 0;
+  -fx-border-insets: 0;
+}
+
+.visualization-container {
+  -fx-border-color: rgba(88, 166, 255, 0.3);
+}
+
+.results-panel {
+  -fx-border-color: rgba(57, 211, 83, 0.3);
+}
+
+.debug-panel {
+  -fx-border-color: rgba(188, 140, 255, 0.3);
+}
+
+.control-group {
+  -fx-background-color: rgba(13, 17, 23, 0.6);
+  -fx-background-radius: 10px;
+  -fx-border-radius: 10px;
+  -fx-border-color: rgba(48, 54, 61, 0.4);
+  -fx-border-width: 1px;
+  -fx-padding: 10px;
+}
+
+.adn-animation-pane {
+  -fx-background-color: rgba(13, 17, 23, 0.6);
+  -fx-background-radius: 8px;
+  -fx-border-radius: 8px;
+  -fx-border-color: rgba(48, 54, 61, 0.4);
+  -fx-border-width: 1px;
+  -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+}
+
+.sequence-display, .pattern-display {
+  -fx-background-color: rgba(13, 17, 23, 0.6);
+  -fx-background-radius: 8px;
+  -fx-border-radius: 8px;
+  -fx-border-color: rgba(48, 54, 61, 0.4);
+  -fx-border-width: 1px;
+  -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+}
+
+/*=====================================================================
+                              ETIQUETAS Y TEXTO
+=====================================================================*/
+.title-label {
+  -fx-font-size: 28px;
+  -fx-font-weight: bold;
+  -fx-text-fill: -fx-accent-dark;
+  -fx-effect: dropshadow(gaussian, -fx-neon-glow, 15, 0.4, 0, 0);
+  -fx-font-family: "Segoe UI", sans-serif;
+  -fx-padding: 5px;
+  -fx-background-color: rgba(0, 0, 0, 0.2);
+  -fx-background-radius: 5px;
+  -fx-border-radius: 5px;
+}
+
+.section-header {
+  -fx-font-size: 18px;
+  -fx-font-weight: bold;
+  -fx-text-fill: -fx-accent-dark;
+  -fx-effect: dropshadow(gaussian, -fx-neon-glow, 10, 0.3, 0, 0);
+  -fx-font-family: "Segoe UI", sans-serif;
+  -fx-padding: 5px 0;
+}
+
+.panel-header {
+  -fx-font-size: 20px;
+  -fx-font-weight: bold;
+  -fx-text-fill: -fx-accent-dark;
+  -fx-effect: dropshadow(gaussian, -fx-neon-glow, 8, 0.2, 0, 0);
+  -fx-font-family: "Segoe UI", sans-serif;
+  -fx-padding: 5px 0;
+  -fx-border-color: transparent transparent -fx-accent-dark transparent;
+  -fx-border-width: 0 0 1 0;
+}
+
+.label {
+  -fx-font-size: 14px;
+  -fx-text-fill: -fx-text-dark;
+  -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.progress-text {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: -fx-accent-dark;
+  -fx-effect: dropshadow(gaussian, -fx-neon-glow, 10, 0.3, 0, 0);
+  -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.status-label {
+  -fx-font-size: 13px;
+  -fx-text-fill: -fx-accent-dark;
+  -fx-font-style: italic;
+  -fx-font-family: "Segoe UI", sans-serif;
+  -fx-background-color: rgba(0, 229, 255, 0.1);
+  -fx-background-radius: 10px;
+  -fx-padding: 3px 8px;
+}
+
+/*=====================================================================
+                              ESTILO DE BOTONES
+=====================================================================*/
+.button {
+  -fx-font-family: "Segoe UI", sans-serif;
+  -fx-font-size: 13px;
+  -fx-font-weight: normal;
+  -fx-background-radius: 6px;
+  -fx-border-radius: 6px;
+  -fx-padding: 8 15;
+  -fx-text-fill: rgba(230, 237, 243, 0.9);
+  -fx-cursor: hand;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 1);
+  -fx-background-color: rgba(36, 41, 47, 0.8);
+  -fx-border-color: rgba(88, 166, 255, 0.3);
+  -fx-border-width: 1;
+  -fx-transition-duration: 0.2s;
+}
+
+.button:hover {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
+  -fx-background-color: rgba(48, 54, 61, 0.8);
+  -fx-border-color: rgba(88, 166, 255, 0.5);
+  -fx-transition-duration: 0.1s;
+}
+
+.button:pressed {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 1, 0, 0, 0);
+  -fx-background-color: rgba(22, 27, 34, 0.8);
+  -fx-transition-duration: 0.1s;
+}
+
+.button-upload {
+  -fx-background-color: rgba(88, 166, 255, 0.2);
+  -fx-border-color: rgba(88, 166, 255, 0.4);
+  -fx-background-radius: 6px;
+  -fx-border-radius: 6px;
+  -fx-text-fill: rgba(230, 237, 243, 0.9);
+  -fx-font-weight: normal;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 1);
+}
+.button-upload:hover {
+  -fx-background-color: rgba(88, 166, 255, 0.3);
+  -fx-border-color: rgba(88, 166, 255, 0.6);
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
+}
+
+.button-start {
+  -fx-background-color: rgba(87, 171, 90, 0.2);
+  -fx-border-color: rgba(57, 211, 83, 0.4);
+  -fx-background-radius: 6px;
+  -fx-border-radius: 6px;
+  -fx-text-fill: rgba(230, 237, 243, 0.9);
+  -fx-font-weight: normal;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 1);
+}
+.button-start:hover {
+  -fx-background-color: rgba(87, 171, 90, 0.3);
+  -fx-border-color: rgba(57, 211, 83, 0.6);
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
+}
+
+.theme-toggle {
+  -fx-background-radius: 15px;
+  -fx-border-radius: 15px;
+  -fx-min-width: 32px;
+  -fx-min-height: 32px;
+  -fx-background-color: rgba(36, 41, 47, 0.8);
+  -fx-border-color: rgba(88, 166, 255, 0.3);
+  -fx-text-fill: rgba(230, 237, 243, 0.9);
+  -fx-font-size: 14px;
+  -fx-padding: 0;
+  -fx-cursor: hand;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 1);
+}
+
+.theme-toggle:hover {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 1);
+  -fx-background-color: rgba(48, 54, 61, 0.8);
+  -fx-border-color: rgba(88, 166, 255, 0.5);
+}
+
+.theme-toggle:selected {
+  -fx-background-color: rgba(250, 251, 252, 0.05);
+  -fx-border-color: rgba(88, 166, 255, 0.3);
+  -fx-text-fill: rgba(230, 237, 243, 0.9);
+}
+
+/*=====================================================================
+                              CAMPOS DE TEXTO
+=====================================================================*/
+.text-field {
+  -fx-background-color: rgba(13, 17, 23, 0.6);
+  -fx-border-color: rgba(48, 54, 61, 0.4);
+  -fx-border-radius: 6px;
+  -fx-background-radius: 6px;
+  -fx-padding: 8 12;
+  -fx-font-size: 13px;
+  -fx-text-fill: rgba(230, 237, 243, 0.9);
+  -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+  -fx-transition-duration: 0.2s;
+}
+
+.text-field:focused {
+  -fx-border-color: rgba(88, 166, 255, 0.5);
+  -fx-border-width: 1;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 3, 0, 0, 0);
+  -fx-transition-duration: 0.1s;
+}
+
+/* === SCROLL PANE === */
+.visualization-scroll {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+  -fx-background: transparent;
+}
+
+.scroll-pane .viewport {
+  -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:horizontal,
+.scroll-pane .scroll-bar:vertical {
+  -fx-background-color: transparent;
+  -fx-background-radius: 10px;
+}
+
+.scroll-pane .scroll-bar:horizontal .thumb,
+.scroll-pane .scroll-bar:vertical .thumb {
+  -fx-background-color: -fx-accent-dark;
+  -fx-background-radius: 10px;
+  -fx-effect: dropshadow(gaussian, -fx-neon-glow, 8, 0.2, 0, 0);
+}
+
+.scroll-pane .increment-button, 
+.scroll-pane .decrement-button {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+/* === RESULTADOS Y DEBUG === */
+.result-area, .debug-area {
+  -fx-background-color: linear-gradient(to bottom, rgba(5, 13, 23, 0.9), rgba(10, 25, 40, 0.9));
+  -fx-border-color: -fx-border-dark;
+  -fx-border-radius: 15px;
+  -fx-background-radius: 15px;
+  -fx-font-family: 'Consolas', 'Courier New', monospace;
+  -fx-font-size: 13px;
+  -fx-text-fill: -fx-text-dark;
+  -fx-padding: 10;
+  -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 2);
+}
+
+.result-area {
+  -fx-border-color: -fx-accent2-dark;
+  -fx-effect: dropshadow(three-pass-box, -fx-accent2-dark, 10, 0.2, 0, 0);
+}
+
+.debug-area {
+  -fx-border-color: -fx-accent3-dark;
+  -fx-effect: dropshadow(three-pass-box, -fx-accent3-dark, 10, 0.2, 0, 0);
+}
+
+.debug-area .content, .result-area .content {
+  -fx-background-color: transparent;
+}
+
+/* === Indicadores de progreso === */
+.progress-container {
+  -fx-effect: dropshadow(gaussian, -fx-neon-glow, 12, 0.3, 0, 0);
+}
+
+/*=====================================================================
+                        ESTILO CUADRADOS BASE
+=====================================================================*/
+.label.base {
+  -fx-font-weight: bold;
+  -fx-font-size: 14px;
+  -fx-min-width: 24px;
+  -fx-min-height: 24px;
+  -fx-alignment: center;
+  -fx-border-radius: 6px;
+  -fx-background-radius: 6px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.2, 0, 2);
+  -fx-transition-duration: 0.2s;
+}
+
+.label.base:hover {
+  -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.3), 8, 0.3, 0, 3);
+  -fx-scale-x: 1.1;
+  -fx-scale-y: 1.1;
+}
+
+.label.A {
+  -fx-background-color: linear-gradient(to bottom right, #74ffa0, #62d580);
+  -fx-border-color: #458e60;
+  -fx-text-fill: white;
+  -fx-effect: dropshadow(gaussian, rgba(116, 255, 160, 0.5), 5, 0.2, 0, 2);
+}
+.label.T {
+  -fx-background-color: linear-gradient(to bottom right, #ff7ebd, #e46399);
+  -fx-border-color: #c44e7a;
+  -fx-text-fill: white;
+  -fx-effect: dropshadow(gaussian, rgba(255, 126, 189, 0.5), 5, 0.2, 0, 2);
+}
+.label.C {
+  -fx-background-color: linear-gradient(to bottom right, #7edfff, #63b5e4);
+  -fx-border-color: #4a88c0;
+  -fx-text-fill: white;
+  -fx-effect: dropshadow(gaussian, rgba(126, 223, 255, 0.5), 5, 0.2, 0, 2);
+}
+.label.G {
+  -fx-background-color: linear-gradient(to bottom right, #ffda7e, #e4c063);
+  -fx-border-color: #bf9a50;
+  -fx-text-fill: white;
+  -fx-effect: dropshadow(gaussian, rgba(255, 218, 126, 0.5), 5, 0.2, 0, 2);
+}
+
+/*=====================================================================
+                        ANIMACIONES FUTURISTAS
+=====================================================================*/
+@keyframes pulse {
+  0% { -fx-opacity: 0.7; -fx-scale-x: 0.95; -fx-scale-y: 0.95; }
+  50% { -fx-opacity: 1.0; -fx-scale-x: 1.05; -fx-scale-y: 1.05; }
+  100% { -fx-opacity: 0.7; -fx-scale-x: 0.95; -fx-scale-y: 0.95; }
+}
+
+@keyframes border-glow {
+  0% { -fx-border-color: -fx-accent-dark; }
+  50% { -fx-border-color: -fx-accent2-dark; }
+  100% { -fx-border-color: -fx-accent-dark; }
+}
+
+.adn-animation-pane {
+  -fx-animation: border-glow 4s infinite;
+}
+
+.progress-text {
+  -fx-animation: pulse 2s infinite;
+}
+
+/*=====================================================================
+                            TEMA CLARO
+=====================================================================*/
+.light-mode {
+  -fx-background-color: -fx-primary-light;
+  -fx-background-image: none;
+}
+
+.light-mode .header-panel, .light-mode .control-sidebar, 
+.light-mode .visualization-container, .light-mode .results-panel, 
+.light-mode .debug-panel {
+  -fx-background-color: rgba(246, 248, 250, 0.7);
+  -fx-border-color: rgba(208, 215, 222, 0.5);
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 2);
+  -fx-border-width: 1px;
+  -fx-border-radius: 12px;
+  -fx-background-radius: 12px;
+}
+
+.light-mode .header-panel {
+  -fx-background-color: rgba(246, 248, 250, 0.7);
+  -fx-border-color: rgba(9, 105, 218, 0.3);
+}
+
+.light-mode .visualization-container {
+  -fx-border-color: rgba(9, 105, 218, 0.3);
+}
+
+.light-mode .results-panel {
+  -fx-border-color: rgba(45, 164, 78, 0.3);
+}
+
+.light-mode .debug-panel {
+  -fx-border-color: rgba(130, 80, 223, 0.3);
+}
+
+.light-mode .control-group {
+  -fx-background-color: rgba(255, 255, 255, 0.5);
+  -fx-border-color: rgba(208, 215, 222, 0.5);
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+}
+
+.light-mode .adn-animation-pane, .light-mode .sequence-display, 
+.light-mode .pattern-display {
+  -fx-background-color: rgba(246, 248, 250, 0.5);
+  -fx-border-color: rgba(208, 215, 222, 0.5);
+  -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+  -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.05), 2, 0, 0, 1);
+}
+
+.light-mode .title-label {
+  -fx-text-fill: rgba(9, 105, 218, 0.8);
+  -fx-background-color: transparent;
+}
+
+.light-mode .section-header, .light-mode .panel-header, 
+.light-mode .progress-text, .light-mode .status-label {
+  -fx-text-fill: rgba(9, 105, 218, 0.8);
+}
+
+.light-mode .panel-header {
+  -fx-border-color: transparent transparent rgba(9, 105, 218, 0.3) transparent;
+}
+
+.light-mode .status-label {
+  -fx-background-color: rgba(246, 248, 250, 0.5);
+}
+
+.light-mode .content-overlay {
+  -fx-background-color: transparent;
+}
+
+.light-mode .button {
+  -fx-background-color: rgba(246, 248, 250, 0.7);
+  -fx-border-color: rgba(9, 105, 218, 0.3);
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 3, 0, 0, 1);
+  -fx-text-fill: rgba(36, 41, 47, 0.9);
+  -fx-background-radius: 6px;
+  -fx-border-radius: 6px;
+}
+
+.light-mode .button:hover {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 1);
+  -fx-background-color: rgba(255, 255, 255, 0.9);
+  -fx-border-color: rgba(9, 105, 218, 0.5);
+}
+}
+
+.light-mode .button-upload {
+  -fx-background-color: linear-gradient(to right, #0064c8, #00a0e5);
+  -fx-border-color: transparent;
+  -fx-text-fill: white;
+}
+
+.light-mode .button-upload:hover {
+  -fx-background-color: linear-gradient(to right, #0075e0, #00b8ff);
+  -fx-effect: dropshadow(gaussian, rgba(0, 100, 200, 0.5), 8, 0.3, 0, 2);
+}
+
+.light-mode .button-start {
+  -fx-background-color: linear-gradient(to right, #00a790, #00cfb0);
+  -fx-border-color: transparent;
+  -fx-text-fill: white;
+}
+
+.light-mode .button-start:hover {
+  -fx-background-color: linear-gradient(to right, #00c0a5, #00e5c5);
+  -fx-effect: dropshadow(gaussian, rgba(0, 150, 130, 0.5), 8, 0.3, 0, 2);
+}
+
+.light-mode .text-field {
+  -fx-background-color: linear-gradient(to bottom, white, rgba(240, 245, 255, 0.9));
+  -fx-border-color: rgba(0, 100, 200, 0.3);
+  -fx-text-fill: -fx-text-light;
+  -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.05), 2, 0, 0, 1);
+}
+
+.light-mode .text-field:focused {
+  -fx-border-color: -fx-accent-light;
+  -fx-effect: dropshadow(gaussian, -fx-accent-light, 5, 0.2, 0, 0);
+}
+
+.light-mode .label {
+  -fx-text-fill: -fx-text-light;
+}
+
+.light-mode .scroll-pane .scroll-bar:horizontal .thumb,
+.light-mode .scroll-pane .scroll-bar:vertical .thumb {
+  -fx-background-color: -fx-accent-light;
+  -fx-effect: dropshadow(gaussian, rgba(0, 100, 200, 0.3), 3, 0.1, 0, 0);
+}
+
+.light-mode .result-area, .light-mode .debug-area {
+  -fx-background-color: linear-gradient(to bottom, white, rgba(240, 245, 255, 0.9));
+  -fx-border-color: rgba(0, 100, 200, 0.3);
+  -fx-text-fill: -fx-text-light;
+  -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 1);
+}
+
+.light-mode .result-area {
+  -fx-border-color: -fx-accent2-light;
+}
+
+.light-mode .debug-area {
+  -fx-border-color: -fx-accent3-light;
+}
+
+.light-mode .theme-toggle {
+  -fx-background-color: linear-gradient(to bottom, white, -fx-secondary-light);
+  -fx-border-color: -fx-accent-light;
+  -fx-text-fill: -fx-accent-light;
+}
+
+.light-mode .theme-toggle:hover {
+  -fx-effect: dropshadow(gaussian, -fx-accent-light, 8, 0.3, 0, 2);
+  -fx-background-color: white;
+}
+
+.light-mode .label.A {
+  -fx-background-color: linear-gradient(to bottom right, #74ffa0, #62d580);
+  -fx-border-color: #458e60;
+  -fx-text-fill: #1e2b4a;
+  -fx-effect: dropshadow(gaussian, rgba(116, 255, 160, 0.5), 3, 0.1, 0, 1);
+}
+.light-mode .label.T {
+  -fx-background-color: linear-gradient(to bottom right, #ff7ebd, #e46399);
+  -fx-border-color: #c44e7a;
+  -fx-text-fill: #1e2b4a;
+  -fx-effect: dropshadow(gaussian, rgba(255, 126, 189, 0.5), 3, 0.1, 0, 1);
+}
+.light-mode .label.C {
+  -fx-background-color: linear-gradient(to bottom right, #7edfff, #63b5e4);
+  -fx-border-color: #4a88c0;
+  -fx-text-fill: #1e2b4a;
+  -fx-effect: dropshadow(gaussian, rgba(126, 223, 255, 0.5), 3, 0.1, 0, 1);
+}
+.light-mode .label.G {
+  -fx-background-color: linear-gradient(to bottom right, #ffda7e, #e4c063);
+  -fx-border-color: #bf9a50;
+  -fx-text-fill: #1e2b4a;
+  -fx-effect: dropshadow(gaussian, rgba(255, 218, 126, 0.5), 3, 0.1, 0, 1);
+}
+
+/* Animación al cambiar tema */
+.main-container, .button, .text-field, .theme-toggle, .panel-header, 
+.section-header, .progress-text, .title-label, .control-sidebar, 
+.visualization-container, .results-panel, .debug-panel, .label.base,
+.result-area, .debug-area {
+  -fx-transition: all 0.5s ease-in-out;
+}
