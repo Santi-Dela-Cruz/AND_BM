@@ -58,6 +58,11 @@ Each contains a valid DNA sequence with multiple potential matches.
 
 <img width="1913" height="986" alt="image" src="https://github.com/user-attachments/assets/6388d328-4daf-4ab6-ae1e-1522ad35096c" />
 
+<img width="1905" height="983" alt="image" src="https://github.com/user-attachments/assets/805c9e04-6296-4c77-a630-83c438f38cda" />
+
+<img width="1911" height="965" alt="image" src="https://github.com/user-attachments/assets/feac833e-0b03-4690-a5df-94a6bf13e8e2" />
+
+
 
 ## 📚 Documentation
 
