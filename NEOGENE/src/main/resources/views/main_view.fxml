@@ -107,7 +107,7 @@
                   <!-- Panel derecho de visualización -->
                   <VBox spacing="10.0" styleClass="visualization-container" GridPane.columnIndex="1">
                      <children>
-                        <Label styleClass="panel-header" text="ANIMACION Y COMPARACION" />
+                        <Label styleClass="panel-header" text="SEQUENCE VISUAL ENGINE" />
                         <AnchorPane VBox.vgrow="ALWAYS">
                            <children>
                               <ScrollPane fx:id="scroll_Visual" fitToWidth="true" hbarPolicy="ALWAYS" layoutX="10.0" layoutY="10.0" styleClass="visualization-scroll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
