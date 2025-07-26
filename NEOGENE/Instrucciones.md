@@ -40,8 +40,6 @@ Este proyecto implementa una herramienta gráfica interactiva para buscar patron
    - Haz clic en `Apply`, luego `OK`
    - Ejecutar con `Shift + F10` o el botón ▶️
 
-
-=======
 # Biosequence Pattern Search Tool (JavaFX)
 
 Este proyecto implementa una herramienta gráfica interactiva para buscar patrones específicos dentro de secuencias de ADN, utilizando el algoritmo de Boyer-Moore.
