@@ -81,6 +81,7 @@
                            <children>
                               <Label styleClass="section-header" text="SEQUENCE QUERY GATE" />
                               <TextField fx:id="txtf_Secuence" promptText="Enter pattern to search" />
+                              <Label fx:id="lb_SequenceDenied" text="Sequence denied" visible="false" style="-fx-text-fill: #e74c3c; -fx-font-style: italic;" />
                               <HBox alignment="CENTER_LEFT" spacing="15.0">
                                  <children>
                                     <Button fx:id="btn_Start" mnemonicParsing="false" styleClass="button-start" text="ANALYNG" />

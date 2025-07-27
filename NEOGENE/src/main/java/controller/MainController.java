@@ -36,6 +36,8 @@ public class MainController {
     @FXML
     private Label lb_EstadoCarga, lb_ProgresoTexto;
     @FXML
+    private Label lb_SequenceDenied;
+    @FXML
     private TextArea txta_Result, txta_Debug;
     @FXML
     private StackPane progressContainer, uploadProgressContainer;
@@ -63,6 +65,11 @@ public class MainController {
      */
     @FXML
     public void initialize() {
+        // Label para secuencia denegada (inicialmente oculto)
+        if (lb_SequenceDenied != null) {
+            lb_SequenceDenied.setVisible(false);
+            lb_SequenceDenied.setStyle("-fx-text-fill: #e74c3c; -fx-font-style: italic;");
+        }
         // Configurar fondo de partículas
         particleEffect = new ParticleNetworkBackground();
         particleBackground.getChildren().add(particleEffect);
@@ -88,6 +95,37 @@ public class MainController {
         btn_UploadFile.setOnAction(e -> cargarArchivo());
         btn_Start.setOnAction(e -> animarBoyerMoore());
         btnThemeToggle.setOnAction(e -> toggleTheme());
+        btn_Start.setDisable(true); // Siempre desactivado al inicio
+
+        // Validación en tiempo real para el campo de secuencia (patrón)
+        txtf_Secuence.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                String upper = newVal.toUpperCase();
+                txtf_Secuence.setText(upper);
+                if (!upper.matches("^[ATCG]*$")) {
+                    btn_Start.setDisable(true);
+                    if (lb_SequenceDenied != null) {
+                        lb_SequenceDenied.setText("Sequence denied");
+                        lb_SequenceDenied.setVisible(true);
+                    }
+                } else {
+                    // Solo habilitar si hay una secuencia válida cargada
+                    if (!secuenciaCargada.isEmpty()) {
+                        btn_Start.setDisable(false);
+                    } else {
+                        btn_Start.setDisable(true);
+                    }
+                    if (lb_SequenceDenied != null) {
+                        lb_SequenceDenied.setVisible(false);
+                    }
+                }
+            } else {
+                btn_Start.setDisable(true);
+                if (lb_SequenceDenied != null) {
+                    lb_SequenceDenied.setVisible(false);
+                }
+            }
+        });
 
         particleBackground.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
@@ -143,8 +181,11 @@ public class MainController {
         File archivo = fileChooser.showOpenDialog(null);
 
         if (archivo == null) {
-            btn_Start.setDisable(true);
+            // Si no se selecciona archivo, mantener el estado anterior:
+            // Si ya había un archivo válido cargado, btn_Start sigue habilitado, si no,
+            // sigue deshabilitado
             btn_UploadFile.setDisable(false);
+            // No modificar secuenciaCargada ni limpiar nada
             debugLog("Operación de carga de archivo cancelada por el usuario");
             return;
         }
@@ -199,13 +240,21 @@ public class MainController {
                                 lb_EstadoCarga.setText("File loaded successfully");
                                 lb_EstadoCarga.setStyle(""); // Resetear estilo a normal
                                 debugLog("Archivo cargado exitosamente");
+                                if (lb_SequenceDenied != null)
+                                    lb_SequenceDenied.setVisible(false);
+                                btn_Start.setDisable(false);
                             } else {
+                                secuenciaCargada = "";
                                 pane_AdnAnimado.setVisible(false);
                                 lb_EstadoCarga.setText("Invalid DNA sequence - Only A, T, C, G allowed");
                                 lb_EstadoCarga.setStyle("-fx-text-fill: #e74c3c;");
                                 debugLog("Archivo rechazado: Secuencia de ADN inválida");
+                                if (lb_SequenceDenied != null) {
+                                    lb_SequenceDenied.setText("Sequence denied");
+                                    lb_SequenceDenied.setVisible(true);
+                                }
+                                btn_Start.setDisable(true);
                             }
-                            btn_Start.setDisable(!esValido);
                             btn_UploadFile.setDisable(false);
                         }));
                 cargaTimeline.play();
@@ -289,6 +338,7 @@ public class MainController {
         limpiarEstilosSecuencia();
         hbox_PatronAnimado.getChildren().clear();
         txta_Result.clear();
+        txta_Debug.clear();
 
         String pattern = txtf_Secuence.getText().toUpperCase();
         if (secuenciaCargada.isEmpty() || pattern.isEmpty()) {
@@ -332,6 +382,18 @@ public class MainController {
                 mostrarPatronEnPosicion(paso.patternPosition, pattern, paso.match);
                 progressIndicator.setProgress((double) (frameIdx + 1) / pasos.size());
 
+                // Depuración detallada del paso
+                StringBuilder debugStep = new StringBuilder();
+                debugStep.append("Paso ").append(frameIdx + 1).append(": ");
+                debugStep.append("Comparando patrón en posición ").append(paso.patternPosition).append(". ");
+                debugStep.append("Comparaciones realizadas: ").append(paso.comparisons).append(". ");
+                if (paso.match) {
+                    debugStep.append("→ Coincidencia encontrada.");
+                } else {
+                    debugStep.append("No hay coincidencia.");
+                }
+                debugLog(debugStep.toString());
+
                 comparacionesTotales[0] += paso.comparisons;
                 if (paso.match) {
                     totalCoincidencias[0]++;
@@ -340,7 +402,6 @@ public class MainController {
                             coincidenciasActuales.add(paso.patternPosition + i);
                         }
                     }
-                    debugLog("Coincidencia encontrada en posición: " + paso.patternPosition);
                 }
                 animador.setCoincidencias(coincidenciasActuales);
                 txta_Result.setText("Posiciones: " + coincidenciasActuales + "\n" +
