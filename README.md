@@ -78,6 +78,6 @@ This project is for academic and educational purposes only.
 
 ## 👨‍🔬 Authors
 
-- Santiago de la Cruz — @Santi-DelaCruz
+- Santiago de la Cruz — @Santi-Dela-Cruz
 - Escuela Politécnica Nacional — 2025A
 
